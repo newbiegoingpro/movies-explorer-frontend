@@ -21,7 +21,6 @@ function MoviesCardList(){
     ]
     return(
         <section className='movies'>
-            <MoviesCard/>
             {cards.map((card, i) => (
                         <MoviesCard key={i} name={card.name} duration={card.duration}  />))}
         </section>

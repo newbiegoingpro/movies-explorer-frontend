@@ -34,7 +34,7 @@ function Header() {
                         <Link className="header__link header__link_marg" to='/movies'>Фильмы</Link>
                         <Link className="header__link" to='/saved_movies'>Сохранённые фильмы</Link>
                     </div>
-                    <Link className="header__link" to='/profile'>Аккаунт</Link>
+                    <Link className="header__link header__link_account" to='/profile'>Аккаунт</Link>
                 </>
             )
         } else {
