@@ -1,0 +1,12 @@
+.aboutme__photo{
+    max-width: 292px;
+    border-radius: 7px;
+    padding-top: 66px;
+}
+
+@media screen and (max-width: 425px) {
+    .aboutme__photo{
+        order: 0;
+        align-self: center;
+    }
+}

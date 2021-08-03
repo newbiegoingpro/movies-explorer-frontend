@@ -1,0 +1,17 @@
+@import url(./__button.css);
+@import url(./__input.css);
+@import url(./__link.css);
+@import url(./__link-container.css);
+@import url(./__heading.css);
+.form{
+    display: flex;
+    flex-direction: column;
+    width: 396px;
+    margin-left: auto;
+    margin-right: auto;
+}
+@media screen and (max-width: 425px) {
+    .form{
+        max-width: 260px;
+    }
+}

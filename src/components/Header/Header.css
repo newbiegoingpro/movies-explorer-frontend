@@ -1,0 +1,28 @@
+@import url(./__container/header__container.css);
+@import url(./__link/header__link.css);
+@import url(./__login-btn/header__login-btn.css);
+@import url(./__logo/header__logo.css);
+@import url(./__logo/_form/header__logo_form.css);
+@import url(./__menu/header__menu.css);
+@import url(./__menu/_active/header__menu_active.css);
+@import url(./__hamburger-btn/header__hamburger-btn.css);
+@import url(./__hamburger-btn/_active/header__hamburger-btn_active.css);
+.header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: relative;
+    padding-top: 18px;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 38px;
+    
+}
+
+@media screen and (max-width: 1199px) {
+    .header{
+        max-width: 90vw;
+        margin: 0 auto;
+    }
+}

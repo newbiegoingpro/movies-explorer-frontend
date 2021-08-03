@@ -1,0 +1,19 @@
+.techs__list{
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    padding-top: 100px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    padding-left: 0;
+    padding-bottom: 100px;
+}
+
+@media screen and (max-width: 425px) {
+    .techs__list{
+       display: grid;
+       grid-template-columns: 84px 84px;
+       grid-template-rows: minmax(min-content, max-content);
+       gap: 10px;
+    }
+}

@@ -1,0 +1,20 @@
+@import url(./__heading/aboutProject__heading.css);
+@import url(./__grid/aboutProject__grid.css);
+@import url(./__grid/__heading/aboutProject__grid__heading.css);
+@import url(./__grid/__text/aboutProject__grid__text.css);
+@import url(./__grid/_bottom/aboutproject__grid_bottom.css);
+@import url(./_green/aboutProject_green.css);
+@import url(./_grey/aboutProject_grey.css);
+@import url(./__text-under/aboutProject__text-under.css);
+.aboutProject{
+    color: black;
+    margin-top: 110px;
+    max-width: 89.0625%;
+    margin-left: auto;
+    margin-right: auto;
+}
+@media screen and (max-width: 768px) {
+    .aboutProject{
+        max-width: 90vw;
+    }
+}

@@ -1,0 +1,12 @@
+.footer__social{
+    display: flex;
+    flex-direction: row;
+}
+
+@media screen and (max-width: 425px){
+    .footer__social{
+        order: 0;
+        flex-direction: column;
+        text-align: center;
+    }
+}

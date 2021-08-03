@@ -1,0 +1,19 @@
+.portfolio__arrow{
+    transform: rotate(315deg);
+    line-height: 60px;
+    font-size: 30px;
+}
+
+@media screen and (max-width: 768px){
+   .portfolio__arrow{
+    
+        font-size: 27px;
+   }
+}
+
+@media screen and (max-width: 425px){
+    .portfolio__arrow{
+        line-height: 28px;
+        font-size: 18px;
+    }
+}

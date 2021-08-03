@@ -1,0 +1,16 @@
+.aboutme__article{
+    font-weight: 400;
+    padding-top: 26px;
+    margin: 0;
+    line-height: 22px;
+    font-size: 14px;
+}
+
+@media screen and (max-width: 768px) {
+    .aboutme__article{
+        line-height: 18px;
+        font-size: 12px;
+        padding-top: 20px;
+        max-width: 364px;
+    }
+}

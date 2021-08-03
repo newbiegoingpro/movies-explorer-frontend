@@ -1,0 +1,9 @@
+.aboutme__social{
+    padding-top: 99px;
+    text-decoration: none;
+}
+@media screen and (max-width: 425px) {
+    .aboutme__social{
+        padding-top: 40px;
+    }
+}
