@@ -18,14 +18,6 @@
     position: relative;
 }
 
-.searchform__input{
-    border-radius: 50px;
-    height: 48px;
-    width: 930px;
-    border: #AAAAAA 1px solid;
-    outline: none;
-    padding: 0;
-}
 
 .searchform__input{
     border-radius: 50px;
@@ -34,6 +26,7 @@
     border: #AAAAAA 1px solid;
     outline: none;
     padding: 0;
+    padding-left: 7px;
 }
 
 .searchform__input::placeholder{
@@ -67,6 +60,10 @@
     align-self: center;
     margin-left: -85px;
     cursor: pointer;
+}
+
+.searchform__button:hover{
+    opacity: .7;
 }
 
 .searchform__label::after{

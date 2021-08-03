@@ -27,6 +27,10 @@
     justify-content: center;
 }
 
+.header__link:focus{
+    font-weight: 500;
+}
+
 @media screen and (max-width: 768px){
     .header__link:focus{
         border-bottom: black 2px solid;
