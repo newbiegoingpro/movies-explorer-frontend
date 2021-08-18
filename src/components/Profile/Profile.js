@@ -1,37 +1,54 @@
 
 import { Link } from "react-router-dom";
 import Header from "../Header/Header";
+import React from "react";
+function Profile(props) {
+    const [email, emailInput] = React.useState('');
+    const [name, nameInput] = React.useState('');
+    function handleEmailInput(e) {
+        emailInput(e.target.value)
+    }
+    function handleNameInput(e) {
+        nameInput(e.target.value)
+    }
 
-function Profile() {
+    function handleSubmit(e) {
+        e.preventDefault();
+        props.onUpdate({ email, name });
+    }
     return (
         <>
             <Header />
             <section className='profile'>
-                <h1 className='profile__head'>
-                    Привет!
-                </h1>
-                <div className='profile__input-container'>
-                    <div className='profile__name-input-container'>
-                        <span className='profile__span'>
-                            Имя
-                        </span>
-                        <input className='profile__input' placeholder='Имя'/>
+                <form className='profile__form' onSubmit={handleSubmit}>
+                    <h1 className='profile__head'>
+                        Привет, {props.user.name} !
+                    </h1>
+
+                    <div className='profile__input-container'>
+                        <div className='profile__name-input-container'>
+                            <span className='profile__span'>
+                                Имя
+                            </span>
+                            <input required onChange={handleNameInput} className='profile__input' defaultValue={props.user.name} />
+                        </div>
+                        <div className='profile__email-input-container'>
+                            <span className='profile__span'>
+                                Почта
+                            </span>
+                            <input required onChange={handleEmailInput} className='profile__input' defaultValue={props.user.email} />
+                        </div>
                     </div>
-                    <div className='profile__email-input-container'>
-                        <span className='profile__span'>
-                            Почта
-                        </span>
-                        <input className='profile__input' placeholder='E-mail'/>
+                    <div className='profile__bottom-container'>
+                        <button disabled={(props.user.name === name) || (props.user.email === email)} className='profile__update-btn'>
+                            Редактировать
+                        </button>
+
+                        <Link className='profile__signout' onClick={props.onSignOut} to='/'>
+                            Выйти из аккаунта
+                        </Link>
                     </div>
-                </div>
-                <div className='profile__bottom-container'>
-                    <button className='profile__update-btn'>
-                        Редактировать
-                    </button>
-                    <Link className='profile__signout' to='/'>
-                        Выйти из аккаунта
-                    </Link>
-                </div>
+                </form>
             </section>
         </>
     )

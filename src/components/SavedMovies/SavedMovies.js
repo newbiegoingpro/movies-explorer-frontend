@@ -3,12 +3,12 @@ import Header from "../Header/Header";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
 
-function SavedMovies() {
+function SavedMovies(props) {
     return (
         <>
             <Header />
-            <SearchForm/>
-            <MoviesCardList/>
+            <SearchForm view={props.view} shortFilms={props.shortFilms} onSearch={props.onSearch} movies={props.movies}/>
+            <MoviesCardList user={props.user} onDelClick={props.onDelClick} view={props.view} />
             <Footer />
         </>
     )

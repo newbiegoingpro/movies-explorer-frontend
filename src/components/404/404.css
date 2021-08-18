@@ -1,0 +1,28 @@
+.not-found{
+    color: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -100%);
+}
+.not-found__title{
+    text-align: center;
+    font-size: 140px;
+    line-height: 169,43px;
+    font-weight: 400;
+}
+.not-found__subtitle{
+    font-size: 16px;
+    line-height: 19,43px;
+}
+.button_type_to-main{
+    text-align: center;
+    text-decoration: none;
+    color: #2BE080;
+}
+.button_type_to-main:hover{
+    opacity: .6;
+}

@@ -1,28 +1,21 @@
 import MoviesCard from "../MoviesCard/MoviesCard";
-function MoviesCardList(){
-    let cards = [
-        {
-            name: '33СЛОВАОДИЗАЙНЕ',
-            duration: '1ч34м',
-            imgSrc: '',
-        },
-
-        {
-            name: '34СЛОВАОДИЗАЙНЕ',
-            duration: '1ч34м',
-            imgSrc: '',
-        },
-
-        {
-            name: '35СЛОВОДИЗАЙНЕ',
-            duration: '1ч34м',
-            imgSrc: '',
-        },
-    ]
-    return(
+import { Route } from "react-router";
+function MoviesCardList(props) {
+    const baseUrl = 'https://api.nomoreparties.co';
+    return (
         <section className='movies'>
-            {cards.map((card, i) => (
-                        <MoviesCard key={i} name={card.name} duration={card.duration}  />))}
+            <Route path='/movies'>
+                {props.view.map((movie) => (
+                    <MoviesCard user={props.user} onSaveClick={props.onSaveClick} movie={movie} key={movie.id}
+                        name={movie.nameRU} duration={movie.duration} trailerLink={movie.trailerLink}
+                        link={`${baseUrl + movie.image.url}`} />))}
+            </Route>
+            <Route path='/saved_movies'>
+                {props.view.map((movie) => (
+                    <MoviesCard user={props.user} view={props.view} onDelClick={props.onDelClick} movie={movie} key={movie._id}
+                        name={movie.nameRU} duration={movie.duration} trailerLink={movie.trailer}
+                        link={movie.image} />))}
+            </Route>
         </section>
     )
 }

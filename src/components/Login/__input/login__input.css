@@ -8,3 +8,6 @@
     padding: 0 0 5px;
     margin-top: 30px;
 }
+.login__input_red{
+    border-bottom: 1px solid red;
+}
