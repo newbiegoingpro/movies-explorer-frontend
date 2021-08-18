@@ -1,0 +1,126 @@
+.searchform{
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.searchform__box{
+    max-width: 90%;
+    display: flex;
+    flex-direction: row;
+    color: black;
+    margin-top: 80px;
+    justify-content: space-between;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+    position: relative;
+}
+
+
+.searchform__input{
+    border-radius: 50px;
+    height: 48px;
+    width: 930px;
+    border: #AAAAAA 1px solid;
+    outline: none;
+    padding: 0;
+    padding-left: 7px;
+}
+
+.searchform__input::placeholder{
+    color: #A0A0A0;
+    padding-left: 5px;
+}
+
+.searchform__checkbox{
+    
+
+    z-index: -1;
+    opacity: 0;
+}
+
+
+.searchform__label{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+}
+.searchform__button{
+    min-width: 80px;
+    height: 34px;
+    border: none;
+    border-radius: 50px;
+    padding: 0;
+    background-color: #2BE080;
+    background-image: url(../../images/icon__COLOR_invisible.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    align-self: center;
+    margin-left: -85px;
+    cursor: pointer;
+}
+
+.searchform__button:hover{
+    opacity: .7;
+}
+
+.searchform__label::after{
+    content: ' ';
+    display: inline-block;
+    background-image: url(../../images/smalltumboff.svg);
+    width: 36px;
+    height: 20px;
+    background-position: center;
+    background-size: contain;
+    margin-left: 14px;
+    cursor: pointer;
+}
+
+.searchform__checkbox:checked + .searchform__label::after{
+    content: ' ';
+    background-image: url(../../images/smalltumb.svg);
+    display: inline-block;
+    width: 36px;
+    height: 20px;
+    background-position: center;
+    background-size: contain;
+    align-self: center;
+    margin-left: 14px;
+    cursor: pointer;
+}
+.searchform__label{
+    line-height: 17px;
+    font-size: 13px;
+    padding-left: 7px;
+}
+
+
+@media screen and (max-width: 1024px){
+    .searchform__box{
+        flex-direction: column;
+
+    }
+    .searchform{
+        width: 100%;
+        justify-content: center;
+    }
+    .searchform__input{
+        max-width: 90%;
+    }
+    .searchform__label{
+        margin-top: 38px;
+    }
+}
+
+@media screen and (max-width: 425px){
+    .searchform__input{
+        max-width: 100%;
+    }
+
+    .searchform__label{
+        line-height: 17px;
+        font-size: 11px;
+    }
+}

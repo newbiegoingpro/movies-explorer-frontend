@@ -1,0 +1,10 @@
+.header__login-btn{
+    width: 76px;
+    height: 32px;
+    background-color: #2BE080;
+    appearance: none;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    margin-left: 29px;
+}

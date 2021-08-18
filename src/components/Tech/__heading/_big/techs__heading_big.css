@@ -1,0 +1,20 @@
+.techs__heading_big{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 124px;
+    align-items: center;
+    max-width: 600px;
+    line-height: 58px;
+    font-size: 50px;
+    font-weight: 400;
+    margin: 0 auto;
+    padding-top: 90px;
+}
+
+@media screen and (max-width: 425px) {
+    .techs__heading_big{
+        font-size: 30px;
+        line-height: 36px;
+    }
+}

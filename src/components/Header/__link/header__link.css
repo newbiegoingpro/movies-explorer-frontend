@@ -1,0 +1,38 @@
+.header__link{
+    text-decoration: none;
+    color: black;
+    align-self: center;
+}
+
+.header__link_marg{
+    margin-right: 16px;
+}
+
+.header__link:active{
+    opacity: .5;
+}
+
+.header__link_marg:active{
+    opacity: .5;
+}
+
+.header__link_account{
+    width: 100px;
+    height: 32px;
+    text-align: center;
+    background-color: #F9F9F9;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header__link:focus{
+    font-weight: 500;
+}
+
+@media screen and (max-width: 768px){
+    .header__link:focus{
+        border-bottom: black 2px solid;
+    }
+}

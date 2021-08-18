@@ -1,0 +1,12 @@
+.aboutProject__text-under{
+    color: #A0A0A0;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+@media screen and (max-width: 425px) {
+    .aboutProject__text-under{
+        font-size: 11px;
+        line-height: 13px;
+    }
+}

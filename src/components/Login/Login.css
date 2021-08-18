@@ -1,0 +1,12 @@
+@import url(./__form/login__form.css);
+@import url(./__input/login__input.css);
+.login{
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -65%);
+}

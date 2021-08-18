@@ -1,0 +1,7 @@
+.menu__list{
+    display: flex;
+    flex-direction: column;
+    height: 122px;
+    justify-content: space-between;
+    align-content: center;
+}

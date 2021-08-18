@@ -1,0 +1,31 @@
+.portfolio__list-item{
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 50px;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.portfolio__list-item:nth-of-type(2n){
+   
+    border-bottom: #E5E5E5 1px solid;
+    border-top: #E5E5E5 1px solid;
+    min-height: 89px;
+    align-items: center;
+}
+
+@media screen and (max-width: 768px){
+    .portfolio__list-item{
+        font-size: 28px;
+
+    }
+}
+
+@media screen and (max-width: 425px){
+    .portfolio__list-item{
+        font-size: 18px;
+        line-height: 28px;
+        min-height: 67px;
+    }
+}

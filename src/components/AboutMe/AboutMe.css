@@ -1,0 +1,18 @@
+@import url(./__heading/aboutme__heading.css);
+@import url(./__name/aboutme__name.css);
+@import url(./__shortinfo/aboutme__shortinfo.css);
+@import url(./__article/aboutme__article.css);
+@import url(./__photo/aboutme__photo.css);
+@import url(./__text-elems-container/aboutme__text-elems-container.css);
+@import url(./__container/aboutme__container.css);
+@import url(./__social/aboutme__social.css);
+@import url(./__link/aboutme__link.css);
+
+.aboutme{
+
+    color: black;
+    
+    
+    
+
+}

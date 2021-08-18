@@ -1,0 +1,14 @@
+.aboutProject__grid__heading{
+   font-weight: 400; 
+   font-size: 20px;
+   line-height: 24px;
+   margin: 0;
+}
+@media screen and (max-width: 425px) {
+.aboutProject__grid__heading_order-0{
+   order: 0;
+}
+.aboutProject__grid__heading_order-2{
+   order: 2;
+}
+}

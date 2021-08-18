@@ -1,0 +1,8 @@
+.promo__cover{
+    background-color: #F5F5F5;
+    height: 513px;
+    display: flex;
+    align-items: center;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+}

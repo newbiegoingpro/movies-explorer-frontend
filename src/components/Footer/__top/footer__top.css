@@ -1,0 +1,16 @@
+.footer__top{
+    border-bottom: #E8E8E8 1px solid;
+    color: #A0A0A0;
+    margin-top: 79px;
+    padding-bottom: 20px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 16px;
+}
+
+@media screen and(max-width:425px){
+    .footer__top{
+        font-size: 10px;
+        line-height: 15px;
+    }
+}

@@ -1,0 +1,13 @@
+@import url(./__top/footer__top.css);
+@import url(./__bottom/footer__bottom.css);
+@import url(./__social/footer__social.css);
+@import url(./__contact/footer__contact.css);
+@import url(./__copyright/footer__copyright.css);
+.footer{
+    min-height: 172px;
+    color: black;
+    margin-top: 90px;
+    max-width: 89.625%;
+    margin-right: auto;
+    margin-left: auto;
+}
