@@ -7,8 +7,8 @@ function SavedMovies(props) {
     return (
         <>
             <Header />
-            <SearchForm view={props.view} shortFilms={props.shortFilms} onSearch={props.onSearch} movies={props.movies}/>
-            <MoviesCardList user={props.user} onDelClick={props.onDelClick} view={props.view} />
+            <SearchForm subm={props.subm} preloaderState={props.preloaderState} view={props.view} shortFilms={props.shortFilms} onSearch={props.onSearch} movies={props.movies}/>
+            <MoviesCardList isSubmitted={props.submSt} user={props.user} onDelClick={props.onDelClick} view={props.view} />
             <Footer />
         </>
     )

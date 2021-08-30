@@ -1,7 +1,10 @@
-function More() {
+function More(props) {
+    const handleClick = () => {
+
+    }
     return (
         <div className='more__box'>
-            <button className='more__btn'>Ещё</button>
+            <button onClick={handleClick} className='more__btn'>Ещё</button>
         </div>
 
     )

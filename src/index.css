@@ -20,6 +20,7 @@
 @import url(./components/MoviesCardList/MoviesCardList.css);
 @import url(./components/More/More.css);
 @import url(./components/404/404.css);
+@import url(./components/Preloader/Preloader.css);
 body {
 
   margin: 0;

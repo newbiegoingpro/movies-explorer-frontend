@@ -19,9 +19,12 @@ function App() {
     const [name, nameInput] = React.useState('');
     const [loggedIn, isLoggedIn] = React.useState(false);
     const [searchResult, setSearchResult] = React.useState([]);
+    const [searchSavedResult, setSearchSavedResult] = React.useState([]);
     const [savedMovies, setSavedMovies] = React.useState([]);
+    const [isLoading, setIsLoading] = React.useState(true);
+    const [isSubmitted, setIsSubmitted] = React.useState(false);
     React.useEffect(() => {
-        
+
         MainApi.getUserInfo()
             .then(data => {
                 setCurrentUserInfo(data)
@@ -36,14 +39,22 @@ function App() {
             .then((data) => {
                 console.log(data)
                 setSavedMovies(data)
-            })    
-            tokenCheck();
+            })
+        tokenCheck();
     }, []);
 
-    const handleSearch = (input) => {
+    const handleSearch = (arr, input) => {
         setSearchResult(() => {
             return moviesBase.filter(movie => Object.values(movie).some(value => typeof value === 'string' && value.toLowerCase().includes(input.toLowerCase())));
         })
+        console.log(searchResult)
+    }
+
+    const handleSavedSearch = (arr, input) => {
+        setSavedMovies(() => {
+            return savedMovies.filter(movie => Object.values(movie).some(value => typeof value === 'string' && value.toLowerCase().includes(input.toLowerCase())));
+        })
+        console.log(savedMovies)
     }
 
     const handleShortFilmsSearch = (arr) => {
@@ -53,7 +64,13 @@ function App() {
         )
 
     }
+    const handleSavedShortFilmsSearch = (arr) => {
+        setSavedMovies(() => {
+            return arr.filter(i => !(i.duration > 50));
+        }
+        )
 
+    }
     function onRegister({ email, password, name }) {
         MainApi.onRegister({ email, password, name })
             .then((data) => {
@@ -103,30 +120,44 @@ function App() {
     function onSaveClick(data) {
         MainApi.changeMovieStatus(JSON.stringify(data))
             .then(data => {
-                
-                    savedMovies.push(data)
-                }
+
+                savedMovies.push(data)
+            }
 
             )
     }
     function onDelClick(_id) {
         MainApi.removeLike(_id)
-            
-            
+
+
     }
     function onSignOut() {
         localStorage.removeItem('token');
         history.push('/signin');
     }
 
+    const onLoad = () => {
+        setIsLoading(isLoading)
+    }
+
+    const onLoadSetTimeout = () => {
+        setIsLoading(!isLoading)
+        setTimeout(onLoad, 2000)
+    }
+    const onSearchSubmit = () => {
+        setIsSubmitted(true)
+    }
     return (
         <CurrentUserContext.Provider value={currentUser}>
             <div className='app'>
                 <Switch>
-                    <ProtectedRoute user={currentUser} movies={moviesBase} onSaveClick={onSaveClick} saved={savedMovies} shortFilms={handleShortFilmsSearch} loggedIn={loggedIn} onSearch={handleSearch} view={searchResult} component={Movies} path='/movies' >
+                    <ProtectedRoute submSt={isSubmitted} subm={onSearchSubmit} preloaderState={onLoadSetTimeout} loadState={isLoading} user={currentUser}
+                    movies={moviesBase} onSaveClick={onSaveClick} saved={savedMovies} onDelClick={onDelClick}
+                    shortFilms={handleShortFilmsSearch} loggedIn={loggedIn} onSearch={handleSearch} view={searchResult} component={Movies} path='/movies' >
 
                     </ProtectedRoute>
-                    <ProtectedRoute user={currentUser} loggedIn={loggedIn} shortFilms={handleShortFilmsSearch} onDelClick={onDelClick} view={savedMovies} component={SavedMovies} path='/saved_movies'>
+                    <ProtectedRoute submSt={isSubmitted} subm={onSearchSubmit} user={currentUser} onSearch={handleSavedSearch} preloaderState={onLoadSetTimeout} loadState={isLoading} loggedIn={loggedIn} shortFilms={handleSavedShortFilmsSearch}
+                    onDelClick={onDelClick} view={savedMovies} movies={savedMovies} component={SavedMovies} path='/saved_movies'>
 
                     </ProtectedRoute>
                     <ProtectedRoute onSignOut={onSignOut} loggedIn={loggedIn} user={currentUser} onUpdate={onProfileUpdate} component={Profile} path='/profile'>

@@ -1,0 +1,8 @@
+.movies__empty{
+    color: black;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    margin-top: 100px;
+    font-size: 20px;
+}

@@ -1,8 +1,16 @@
+import { useState } from 'react';
 import { Route, Link } from 'react-router-dom';
 import img from '../../images/hooligani.png'
 import Movies from '../Movies/Movies';
 function MoviesCard(props) {
     const duration = Number(props.duration);
+    const savedIds = props.saved.map((e) => {
+        return e.movieId;
+    })
+     const wasSaved = savedIds.some((e) => {
+        return e === props.movie.id;
+    });
+    const [isSaved, setSavedState] = useState(false);
     const handleClick = () => {
         props.onSaveClick({
             country: props.movie.country,
@@ -18,11 +26,22 @@ function MoviesCard(props) {
             nameEN: props.movie.nameEN,
             owner: props.user._id,
         })
+        setSavedState(true);
     }
     const handleDel = () => {
-        console.log(props.movie._id)
-        props.onDelClick(props.movie._id)
-        props.view.filter(i => i._id !== props.movie._id)
+        console.log(props.movie._id);
+        props.onDelClick(props.movie._id);
+        //props.view.filter(i => i._id !== props.movie._id);
+    }
+    const handleDelMain = () => {
+        const id = props.movie.id;
+        const ids = props.saved.filter(i => Object.values(i).find(e => e === id))
+
+console.log(ids[0]._id)
+        props.onDelClick(ids[0]._id);
+        console.log(savedIds);
+        setSavedState(false);
+        //props.view.filter(i => i._id !== props.movie._id);
     }
     return (
 
@@ -39,7 +58,7 @@ function MoviesCard(props) {
                 </div>
                 <div className="movie__save-container">
                     <Route path='/movies'>
-                        <button className='movie__save-button' type="button" onClick={handleClick}>
+                        <button className={`${(isSaved || wasSaved) ? 'movie__save-button_active': 'movie__save-button'}`} type="button" onClick={(isSaved || wasSaved) ? handleDelMain : handleClick }>
                         </button>
                     </Route>
                     <Route path='/saved_movies'>
