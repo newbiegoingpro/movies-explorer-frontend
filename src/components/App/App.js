@@ -11,6 +11,8 @@ import MainApi from '../../utils/authApi';
 import MoviesApi from '../../utils/moviesApi';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import NotFoundPage from '../404/404';
+import react from 'react';
+import Popup from '../Popup/Popup';
 function App() {
     const history = useHistory();
     const [currentUser, setCurrentUserInfo] = React.useState({});
@@ -24,6 +26,8 @@ function App() {
     const [isLoading, setIsLoading] = React.useState(true);
     const [isSubmitted, setIsSubmitted] = React.useState(false);
     const [timesPressed, setTimesPressed] = React.useState(0);
+    const [isSuccessful, setIsSuccessful] = React.useState(null);
+    const [isOpen, setIsOpen] = React.useState(false);
     React.useEffect(() => {
         
         MainApi.getUserInfo()
@@ -107,7 +111,7 @@ function App() {
                         handleLogin();
                         history.push('/movies')
                     }
-                }).catch(err => alert(111))
+                }).catch(err => alert(err))
         }
     }
 
@@ -116,9 +120,17 @@ function App() {
             .then((data) => {
                 emailInput(data.email);
                 nameInput(data.name);
+                setIsSuccessful(true)
+                setIsOpen(true)
+            }).catch(err => {
+                setIsSuccessful(false)
+                alert(err)
             })
+                
     }
-
+    const setPopupVisibility = () => {
+        setIsOpen(false);
+    }
     function onSaveClick(data) {
         MainApi.changeMovieStatus(JSON.stringify(data))
             .then(data => {
@@ -126,11 +138,11 @@ function App() {
                 savedMovies.push(data)
             }
 
-            )
+            ).catch(err => alert(err))
     }
     function onDelClick(_id) {
         MainApi.removeLike(_id)
-
+        .catch(err => alert(err))
 
     }
     function onSignOut() {
@@ -162,7 +174,7 @@ function App() {
                     onDelClick={onDelClick} view={savedMovies} movies={savedMovies} component={SavedMovies} path='/saved_movies'>
 
                     </ProtectedRoute>
-                    <ProtectedRoute onSignOut={onSignOut} loggedIn={loggedIn} user={currentUser} onUpdate={onProfileUpdate} component={Profile} path='/profile'>
+                    <ProtectedRoute isSuccessful={isSuccessful} onSignOut={onSignOut} loggedIn={loggedIn} user={currentUser} onUpdate={onProfileUpdate} component={Profile} path='/profile'>
 
                     </ProtectedRoute>
                     <Route exact path='/'>
@@ -177,7 +189,9 @@ function App() {
                     <Route path='*'>
                         <NotFoundPage />
                     </Route>
+                    
                 </Switch>
+                <Popup isSuccessful={isSuccessful} isOpen={isOpen} setIsOpen={setPopupVisibility}/>
             </div>
         </CurrentUserContext.Provider>
     )

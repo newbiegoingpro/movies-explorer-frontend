@@ -74,7 +74,12 @@
     min-height: 620px;
 }
 
-
+.profile__tip{
+    color: #2BE080;
+}
+.profile__tip_fail{
+    color: #EE3465;
+}
 @media screen and (max-width: 425px){
     .profile__input-container{
         min-width: 90%;
