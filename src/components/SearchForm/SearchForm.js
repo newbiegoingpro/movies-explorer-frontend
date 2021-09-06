@@ -23,7 +23,7 @@ function SearchForm(props) {
             <form onSubmit={handleSubmit} className='searchform'>
                 <input onChange={handleChange} required placeholder='Фильм' type='search' className='searchform__input'>
                 </input>
-                <button className='searchform__button' onClick={props.preloaderState}></button>
+                <button disabled={search.length === 0} className={`${search.length === 0 ? 'searchform__button_disabled' : 'searchform__button'}`} onClick={props.preloaderState}></button>
             </form>
 
 

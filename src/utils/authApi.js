@@ -123,7 +123,7 @@ export class Auth {
 
 
 const auth = new Auth({
-    baseUrl: 'http://localhost:3001',
+    baseUrl: 'https://api.diplomashvayka.nomoredomains.club',
     headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${localStorage.getItem('token')}`

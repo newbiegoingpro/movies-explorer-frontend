@@ -23,8 +23,9 @@ function App() {
     const [savedMovies, setSavedMovies] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
     const [isSubmitted, setIsSubmitted] = React.useState(false);
+    const [timesPressed, setTimesPressed] = React.useState(0);
     React.useEffect(() => {
-
+        
         MainApi.getUserInfo()
             .then(data => {
                 setCurrentUserInfo(data)
@@ -41,13 +42,14 @@ function App() {
                 setSavedMovies(data)
             })
         tokenCheck();
-    }, []);
+    }, [searchResult]);
 
     const handleSearch = (arr, input) => {
         setSearchResult(() => {
             return moviesBase.filter(movie => Object.values(movie).some(value => typeof value === 'string' && value.toLowerCase().includes(input.toLowerCase())));
         })
         console.log(searchResult)
+        setTimesPressed(0)
     }
 
     const handleSavedSearch = (arr, input) => {
@@ -151,7 +153,7 @@ function App() {
         <CurrentUserContext.Provider value={currentUser}>
             <div className='app'>
                 <Switch>
-                    <ProtectedRoute submSt={isSubmitted} subm={onSearchSubmit} preloaderState={onLoadSetTimeout} loadState={isLoading} user={currentUser}
+                    <ProtectedRoute setCounter={setTimesPressed} counter={timesPressed} submSt={isSubmitted} subm={onSearchSubmit} preloaderState={onLoadSetTimeout} loadState={isLoading} user={currentUser}
                     movies={moviesBase} onSaveClick={onSaveClick} saved={savedMovies} onDelClick={onDelClick}
                     shortFilms={handleShortFilmsSearch} loggedIn={loggedIn} onSearch={handleSearch} view={searchResult} component={Movies} path='/movies' >
 

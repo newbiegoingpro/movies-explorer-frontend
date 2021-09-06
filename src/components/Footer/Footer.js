@@ -5,9 +5,9 @@ function Footer() {
             <div className='footer__bottom'>
                 <p className="footer__copyright">&copy; {new Date().getFullYear()}</p>
                 <div className='footer__social'>
-                    <p className='footer__contact'>Яндекс.Практикум</p>
-                    <p className='footer__contact'>Github</p>
-                    <p className='footer__contact'>Facebook</p>
+                    <a target='_blank' href={`https://practicum.yandex.ru/`} className='footer__contact' rel="noreferrer">Яндекс.Практикум</a>
+                    <a target='_blank' href={`https://github.com/yandex-praktikum`} className='footer__contact' rel="noreferrer">Github</a>
+                    <a target='_blank' href={`https://www.facebook.com/yandex.practicum`} className='footer__contact' rel="noreferrer">Facebook</a>
                 </div>
             </div>
 

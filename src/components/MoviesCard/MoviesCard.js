@@ -7,7 +7,7 @@ function MoviesCard(props) {
     const savedIds = props.saved.map((e) => {
         return e.movieId;
     })
-     const wasSaved = savedIds.some((e) => {
+    const wasSaved = savedIds.some((e) => {
         return e === props.movie.id;
     });
     const [isSaved, setSavedState] = useState(false);
@@ -36,20 +36,16 @@ function MoviesCard(props) {
     const handleDelMain = () => {
         const id = props.movie.id;
         const ids = props.saved.filter(i => Object.values(i).find(e => e === id))
-
-console.log(ids[0]._id)
         props.onDelClick(ids[0]._id);
         console.log(savedIds);
         setSavedState(false);
         //props.view.filter(i => i._id !== props.movie._id);
     }
     return (
-
         <div className='movie'>
-            <Link target='_blank' to={props.trailerLink}>
+            <a target='_blank' href={props.trailerLink} rel="noreferrer">
                 <img className="movie__pic" src={props.link} alt='постер фильма' />
-            </Link>
-
+            </a>
             <div className='movie__container'>
                 <div className="movie__text-container">
 
@@ -64,7 +60,6 @@ console.log(ids[0]._id)
                     <Route path='/saved_movies'>
                         <button className='movie__saved-button' type='button' onClick={handleDel} />
                     </Route>
-
                 </div>
             </div>
         </div>
