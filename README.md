@@ -1,3 +1,5 @@
+public ip - 62.84.113.177, domain address - https://diplomashvayka.nomoredomains.club
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
