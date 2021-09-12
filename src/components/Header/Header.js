@@ -1,10 +1,10 @@
 import logo from '../../images/logo.svg';
-import { Link, Route,  } from 'react-router-dom';
+import { Link, Route, } from 'react-router-dom';
 import React from 'react';
 import burgir from '../../images/burgir.svg';
 import menuClose from '../../images/Group.svg';
 import Menu from '../Menu/Menu';
-function Header() {
+function Header(props) {
     const [isMenuOpen, handleMenuVisibility] = React.useState(false);
     const [width, measureHeaderWidth] = React.useState({ width: window.innerWidth });
     React.useEffect(() => {
@@ -63,14 +63,21 @@ function Header() {
             </Route>
 
             <Route exact path='/'>
-                <Link to='/'>
-                    <img alt='Логотип' src={logo} className='header__logo' />
-                </Link>
+                {props.isLoggedIn ?
+                    getLoggedHeaderLayout()
+                    :
+                    <>
+                        <Link to='/'>
+                            <img alt='Логотип' src={logo} className='header__logo' />
+                        </Link>
 
-                <div className="header__container">
-                    <Link className='header__link' to='/signup'>Регистрация</Link>
-                    <button className='header__login-btn'><Link className='header__link' to='/signin'>Войти</Link></button>
-                </div>
+                        <div className="header__container">
+                            <Link className='header__link' to='/signup'>Регистрация</Link>
+                            <button className='header__login-btn'><Link className='header__link' to='/signin'>Войти</Link></button>
+                        </div>
+                    </>
+                }
+
             </Route>
             <Route path={["/movies", "/saved_movies", "/profile"]}>
                 {getLoggedHeaderLayout()}

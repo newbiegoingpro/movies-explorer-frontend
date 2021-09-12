@@ -28,29 +28,46 @@ function App() {
     const [timesPressed, setTimesPressed] = React.useState(0);
     const [isSuccessful, setIsSuccessful] = React.useState(null);
     const [isOpen, setIsOpen] = React.useState(false);
+    
     React.useEffect(() => {
-        
+        const movies = localStorage.getItem('movies')
+        const searchRes = localStorage.getItem('searchRes');
+        const token = localStorage.getItem('token');
+        if (searchRes) {
+            setSearchResult(JSON.parse(searchRes))
+        }
         MainApi.getUserInfo()
             .then(data => {
                 setCurrentUserInfo(data)
             })
             .catch(err => alert(err));
-        MoviesApi.getAllMovies()
-            .then((data) => {
-                setMoviesBase(data)
-                console.log(moviesBase)
-            })
+        if(!movies){
+            MoviesApi.getAllMovies()
+                .then((data) => {
+                    setMoviesBase(data)
+                    localStorage.setItem('movies', JSON.stringify(data))
+                    console.log(moviesBase)
+                })
+        } else {
+            setMoviesBase(JSON.parse(movies))
+        }          
         MainApi.getSavedMovies()
             .then((data) => {
                 console.log(data)
                 setSavedMovies(data)
             })
-        tokenCheck();
-    }, [searchResult]);
+        if (token || (loggedIn===false)) {
+            tokenCheck();
+        }
+
+    }, []);
 
     const handleSearch = (arr, input) => {
         setSearchResult(() => {
-            return moviesBase.filter(movie => Object.values(movie).some(value => typeof value === 'string' && value.toLowerCase().includes(input.toLowerCase())));
+            let searchRes
+            searchRes = moviesBase.filter(movie => Object.values(movie).some(value => typeof value === 'string' && value.toLowerCase().includes(input.toLowerCase())));
+            localStorage.setItem('searchRes', JSON.stringify(searchRes))
+            return searchRes
         })
         console.log(searchResult)
         setTimesPressed(0)
@@ -65,13 +82,17 @@ function App() {
 
     const handleShortFilmsSearch = (arr) => {
         setSearchResult(() => {
-            return arr.filter(i => !(i.duration > 50));
+            let searchRes
+            searchRes = moviesBase.filter(i => !(i.duration > 50));
+            localStorage.setItem('searchRes', JSON.stringify(searchRes))
+            return searchRes
         }
         )
 
     }
     const handleSavedShortFilmsSearch = (arr) => {
         setSavedMovies(() => {
+            
             return arr.filter(i => !(i.duration > 50));
         }
         )
@@ -80,8 +101,9 @@ function App() {
     function onRegister({ email, password, name }) {
         MainApi.onRegister({ email, password, name })
             .then((data) => {
-
-                history.push('/signin')
+                setCurrentUserInfo(data.user)
+                handleLogin();
+                history.push('/movies')
             }).catch((err) => {
                 alert(err)
             })
@@ -91,7 +113,7 @@ function App() {
         MainApi.onLogin({ email, password })
             .then((data) => {
                 localStorage.setItem('token', data.token)
-
+                setCurrentUserInfo(data.user)
                 handleLogin();
                 history.push('/movies');
             }).catch(err => alert(err))
@@ -109,7 +131,7 @@ function App() {
                         console.log(data.email);
                         console.log(loggedIn);
                         handleLogin();
-                        history.push('/movies')
+
                     }
                 }).catch(err => alert(err))
         }
@@ -123,10 +145,11 @@ function App() {
                 setIsSuccessful(true)
                 setIsOpen(true)
             }).catch(err => {
+                setIsOpen(true)
                 setIsSuccessful(false)
                 alert(err)
             })
-                
+
     }
     const setPopupVisibility = () => {
         setIsOpen(false);
@@ -142,12 +165,22 @@ function App() {
     }
     function onDelClick(_id) {
         MainApi.removeLike(_id)
-        .catch(err => alert(err))
+            .then(d => 
+                setSavedMovies(savedMovies.filter((el) =>  Object.values(el).every((elem) =>  elem !== _id))) 
+            )
+            .catch(err => alert(err))
 
     }
     function onSignOut() {
         localStorage.removeItem('token');
+        localStorage.removeItem('setbxSt');
+        localStorage.removeItem('searchRes');
+        localStorage.removeItem('movies');
+
+
+
         history.push('/signin');
+        isLoggedIn(false);
     }
 
     const onLoad = () => {
@@ -161,24 +194,28 @@ function App() {
     const onSearchSubmit = () => {
         setIsSubmitted(true)
     }
+    const handleBackClick = () => {
+        history.go(-1)
+    }
     return (
-        <CurrentUserContext.Provider value={currentUser}>
+        <CurrentUserContext.Provider value={currentUser} >
             <div className='app'>
-                <Switch>
-                    <ProtectedRoute setCounter={setTimesPressed} counter={timesPressed} submSt={isSubmitted} subm={onSearchSubmit} preloaderState={onLoadSetTimeout} loadState={isLoading} user={currentUser}
-                    movies={moviesBase} onSaveClick={onSaveClick} saved={savedMovies} onDelClick={onDelClick}
-                    shortFilms={handleShortFilmsSearch} loggedIn={loggedIn} onSearch={handleSearch} view={searchResult} component={Movies} path='/movies' >
+                <Switch history={history}>
+                    <ProtectedRoute setCounter={setTimesPressed} counter={timesPressed} submSt={isSubmitted} subm={onSearchSubmit} preloaderState={onLoadSetTimeout}
+                        loadState={isLoading} user={currentUser} movies={moviesBase} onSaveClick={onSaveClick} saved={savedMovies} onDelClick={onDelClick}
+                        shortFilms={handleShortFilmsSearch} loggedIn={loggedIn} onSearch={handleSearch} view={searchResult} component={Movies} path='/movies' >
 
                     </ProtectedRoute>
-                    <ProtectedRoute submSt={isSubmitted} subm={onSearchSubmit} user={currentUser} onSearch={handleSavedSearch} preloaderState={onLoadSetTimeout} loadState={isLoading} loggedIn={loggedIn} shortFilms={handleSavedShortFilmsSearch}
-                    onDelClick={onDelClick} view={savedMovies} movies={savedMovies} component={SavedMovies} path='/saved_movies'>
+                    <ProtectedRoute submSt={isSubmitted} subm={onSearchSubmit} user={currentUser}
+                        onSearch={handleSavedSearch} preloaderState={onLoadSetTimeout} loadState={isLoading} loggedIn={loggedIn} shortFilms={handleSavedShortFilmsSearch}
+                        onDelClick={onDelClick} view={savedMovies} movies={savedMovies} component={SavedMovies} path='/saved_movies'>
 
                     </ProtectedRoute>
                     <ProtectedRoute isSuccessful={isSuccessful} onSignOut={onSignOut} loggedIn={loggedIn} user={currentUser} onUpdate={onProfileUpdate} component={Profile} path='/profile'>
 
                     </ProtectedRoute>
                     <Route exact path='/'>
-                        <Main />
+                        <Main isLoggedIn={loggedIn} />
                     </Route>
                     <Route path='/signin'>
                         <Login onLogin={onLogin} />
@@ -186,12 +223,12 @@ function App() {
                     <Route path='/signup'>
                         <Register onRegister={onRegister} />
                     </Route>
-                    <Route path='*'>
-                        <NotFoundPage />
+                    <Route >
+                        <NotFoundPage handleBackClick={handleBackClick} history={history} />
                     </Route>
-                    
+
                 </Switch>
-                <Popup isSuccessful={isSuccessful} isOpen={isOpen} setIsOpen={setPopupVisibility}/>
+                <Popup isSuccessful={isSuccessful} isOpen={isOpen} setIsOpen={setPopupVisibility} />
             </div>
         </CurrentUserContext.Provider>
     )

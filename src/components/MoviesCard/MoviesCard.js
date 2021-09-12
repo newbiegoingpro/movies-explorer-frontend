@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Route, Link } from 'react-router-dom';
-import img from '../../images/hooligani.png'
-import Movies from '../Movies/Movies';
+import { Route } from 'react-router-dom';
+
 function MoviesCard(props) {
     const duration = Number(props.duration);
     const savedIds = props.saved.map((e) => {
@@ -11,6 +10,7 @@ function MoviesCard(props) {
         return e === props.movie.id;
     });
     const [isSaved, setSavedState] = useState(false);
+    
     const handleClick = () => {
         props.onSaveClick({
             country: props.movie.country,
@@ -35,9 +35,10 @@ function MoviesCard(props) {
     }
     const handleDelMain = () => {
         const id = props.movie.id;
-        const ids = props.saved.filter(i => Object.values(i).find(e => e === id))
+        const ids = props.saved.filter(i => Object.values(i).find(e => e === id));
+        
         props.onDelClick(ids[0]._id);
-        console.log(savedIds);
+        
         setSavedState(false);
         //props.view.filter(i => i._id !== props.movie._id);
     }

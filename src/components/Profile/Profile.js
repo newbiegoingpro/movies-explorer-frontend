@@ -2,7 +2,9 @@
 import { Link } from "react-router-dom";
 import Header from "../Header/Header";
 import React from "react";
+import { CurrentUserContext } from '../../contexts/currentUserContext';
 function Profile(props) {
+    const user = React.useContext(CurrentUserContext)
     const [email, emailInput] = React.useState('');
     const [name, nameInput] = React.useState('');
     function handleEmailInput(e) {
@@ -17,41 +19,43 @@ function Profile(props) {
         props.onUpdate({ email, name });
     }
     return (
-        <>
-            <Header />
-            <section className='profile'>
-                <form className='profile__form' onSubmit={handleSubmit}>
-                    <h1 className='profile__head'>
-                        Привет, {props.user.name} !
-                    </h1>
+        
+            <>
+                <Header />
+                <section className='profile'>
+                    <form className='profile__form' onSubmit={handleSubmit}>
+                        <h1 className='profile__head'>
+                            Привет, {user.name} !
+                        </h1>
 
-                    <div className='profile__input-container'>
-                        <div className='profile__name-input-container'>
-                            <span className='profile__span'>
-                                Имя
-                            </span>
-                            <input required onChange={handleNameInput} className='profile__input' defaultValue={props.user.name} />
+                        <div className='profile__input-container'>
+                            <div className='profile__name-input-container'>
+                                <span className='profile__span'>
+                                    Имя
+                                </span>
+                                <input required onChange={handleNameInput} className='profile__input' placeholder={user.name} />
+                            </div>
+                            <div className='profile__email-input-container'>
+                                <span className='profile__span'>
+                                    Почта
+                                </span>
+                                <input required onChange={handleEmailInput} className='profile__input' placeholder={user.email} />
+                            </div>
                         </div>
-                        <div className='profile__email-input-container'>
-                            <span className='profile__span'>
-                                Почта
-                            </span>
-                            <input required onChange={handleEmailInput} className='profile__input' defaultValue={props.user.email} />
-                        </div>
-                    </div>
-                    <div className='profile__bottom-container'>
-                        <button disabled={(props.user.name === name) || (props.user.email === email)} className='profile__update-btn'>
-                            Редактировать
-                        </button>
+                        <div className='profile__bottom-container'>
+                            <button disabled={name.length === 0 || email.length === 0} className='profile__update-btn'>
+                                Редактировать
+                            </button>
 
-                        <Link className='profile__signout' onClick={props.onSignOut} to='/'>
-                            Выйти из аккаунта
-                        </Link>
-                    </div>
-                </form>
-            </section>
-        </>
-    )
+                            <Link className='profile__signout' onClick={props.onSignOut} to='/'>
+                                Выйти из аккаунта
+                            </Link>
+                        </div>
+                    </form>
+                </section>
+            </>
+            
+                )
 }
 
-export default Profile;
+                export default Profile;

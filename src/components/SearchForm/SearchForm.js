@@ -1,7 +1,13 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 function SearchForm(props) {
     const [search, searchInput] = useState('');
     const [isChecked, setCheckbox] = useState(false);
+    useEffect(() => {
+        const state = localStorage.getItem('checkbxSt');
+        if(state){
+            setCheckbox(JSON.parse(state))
+        }
+    }, [])
     const handleChange = (e) => {
         searchInput(e.target.value);
     }
@@ -15,7 +21,14 @@ function SearchForm(props) {
     }
     
     const shortFilmsFilter = () => {
-        props.shortFilms(props.view)
+        setCheckbox(!isChecked)
+        if(isChecked){
+            localStorage.setItem('checkbxSt', JSON.stringify(false))
+            props.onSearch(props.movies, search);
+        } else{
+            localStorage.setItem('checkbxSt', JSON.stringify(true))
+            props.shortFilms(props.view)
+        }   
     }
 
     return (
@@ -27,7 +40,7 @@ function SearchForm(props) {
             </form>
 
 
-            <input className='searchform__checkbox' id='shortFilm' type='checkbox' onClick={shortFilmsFilter} />
+            <input className='searchform__checkbox' id='shortFilm' checked={isChecked} type='checkbox' onClick={shortFilmsFilter} />
             <label className='searchform__label' htmlFor="shortFilm">Короткометражки</label>
         </div>
     )
