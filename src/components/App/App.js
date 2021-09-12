@@ -194,9 +194,7 @@ function App() {
     const onSearchSubmit = () => {
         setIsSubmitted(true)
     }
-    const handleBackClick = () => {
-        history.go(-1)
-    }
+    
     return (
         <CurrentUserContext.Provider value={currentUser} >
             <div className='app'>
@@ -223,8 +221,8 @@ function App() {
                     <Route path='/signup'>
                         <Register onRegister={onRegister} />
                     </Route>
-                    <Route >
-                        <NotFoundPage handleBackClick={handleBackClick} history={history} />
+                    <Route path='*'>
+                        <NotFoundPage  />
                     </Route>
 
                 </Switch>

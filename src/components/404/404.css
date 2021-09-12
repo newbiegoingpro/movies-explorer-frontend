@@ -22,6 +22,9 @@
     text-align: center;
     text-decoration: none;
     color: #2BE080;
+    outline: none;
+    background-color: white;
+    border: none;
 }
 .button_type_to-main:hover{
     opacity: .6;

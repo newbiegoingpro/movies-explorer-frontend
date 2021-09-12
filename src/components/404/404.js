@@ -1,7 +1,11 @@
 import { Link, useHistory  } from "react-router-dom";
 
 function NotFoundPage(props) {
-    
+    const history = useHistory();
+    const handleBackClick = () => {
+        console.log('клик')
+        history.goBack()
+    }
     
     return (
         <div className="not-found">
@@ -9,7 +13,7 @@ function NotFoundPage(props) {
                 404 <br></br><p className='not-found__subtitle'>Страница не найдена</p>
             </h3>
             
-            <Link className="button button_type_to-main" onClick={props.handleBackClick}>Назад</Link>
+            <button className="button button_type_to-main" onClick={handleBackClick}>Назад</button>
         </div>
     )
 }
