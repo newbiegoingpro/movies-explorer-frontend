@@ -36,12 +36,15 @@ function App() {
         if (searchRes) {
             setSearchResult(JSON.parse(searchRes))
         }
-        MainApi.getUserInfo()
+        if(loggedIn){
+            MainApi.getUserInfo()
             .then(data => {
                 setCurrentUserInfo(data)
             })
             .catch(err => alert(err));
-        if(!movies){
+        }
+        
+        if(!movies &&loggedIn){
             MoviesApi.getAllMovies()
                 .then((data) => {
                     setMoviesBase(data)
@@ -56,7 +59,8 @@ function App() {
                 console.log(data)
                 setSavedMovies(data)
             })
-        if (token || (loggedIn===false)) {
+        if (token && loggedIn) {
+            console.log('check')
             tokenCheck();
         }
 
@@ -173,7 +177,7 @@ function App() {
     }
     function onSignOut() {
         localStorage.removeItem('token');
-        localStorage.removeItem('setbxSt');
+        localStorage.removeItem('checkbxSt');
         localStorage.removeItem('searchRes');
         localStorage.removeItem('movies');
 
