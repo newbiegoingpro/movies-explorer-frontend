@@ -36,7 +36,7 @@ function App() {
         if (searchRes) {
             setSearchResult(JSON.parse(searchRes))
         }
-        if(loggedIn){
+        if(loggedIn === true){
             MainApi.getUserInfo()
             .then(data => {
                 setCurrentUserInfo(data)
@@ -44,7 +44,7 @@ function App() {
             .catch(err => alert(err));
         }
         
-        if(!movies &&loggedIn){
+        if(!movies && (loggedIn === true)){
             MoviesApi.getAllMovies()
                 .then((data) => {
                     setMoviesBase(data)
@@ -53,13 +53,16 @@ function App() {
                 })
         } else {
             setMoviesBase(JSON.parse(movies))
-        }          
-        MainApi.getSavedMovies()
+        } 
+        if(loggedIn === true){
+            MainApi.getSavedMovies()
             .then((data) => {
                 console.log(data)
                 setSavedMovies(data)
-            })
-        if (token && loggedIn) {
+            }).catch(err => alert(err))
+        }         
+        
+        if (token && (loggedIn === false)) {
             console.log('check')
             tokenCheck();
         }
@@ -105,9 +108,9 @@ function App() {
     function onRegister({ email, password, name }) {
         MainApi.onRegister({ email, password, name })
             .then((data) => {
-                setCurrentUserInfo(data.user)
-                handleLogin();
-                history.push('/movies')
+                setCurrentUserInfo(data)
+                onLogin({ email, password })
+                history.push('/movies');
             }).catch((err) => {
                 alert(err)
             })
@@ -132,20 +135,20 @@ function App() {
             MainApi.tokenCheck(token)
                 .then((data) => {
                     if (data) {
+                        setCurrentUserInfo(data)
                         console.log(data.email);
                         console.log(loggedIn);
                         handleLogin();
-
+                        console.log(loggedIn);
                     }
-                }).catch(err => alert(err))
+                }).catch(err => alert(err)).finally(console.log(loggedIn))
         }
     }
 
     function onProfileUpdate(data) {
         MainApi.updateUserInfo(JSON.stringify(data))
             .then((data) => {
-                emailInput(data.email);
-                nameInput(data.name);
+                setCurrentUserInfo(data)
                 setIsSuccessful(true)
                 setIsOpen(true)
             }).catch(err => {
@@ -216,9 +219,13 @@ function App() {
                     <ProtectedRoute isSuccessful={isSuccessful} onSignOut={onSignOut} loggedIn={loggedIn} user={currentUser} onUpdate={onProfileUpdate} component={Profile} path='/profile'>
 
                     </ProtectedRoute>
+                    
                     <Route exact path='/'>
                         <Main isLoggedIn={loggedIn} />
                     </Route>
+                    <ProtectedRoute component={NotFoundPage} path='*'>
+                        <NotFoundPage/>
+                    </ProtectedRoute>
                     <Route path='/signin'>
                         <Login onLogin={onLogin} />
                     </Route>
