@@ -16,7 +16,6 @@ function Register(props) {
         props.onRegister({ email: email.value, password: password.value, name: name.value })
     }
     return (
-        <>
             <div className="register">
                 <Header />
                 <form className="form" onSubmit={handleSubmit}>
@@ -48,9 +47,7 @@ function Register(props) {
                     <Link to="/signin" className="form__link">Войти
                     </Link>
                 </div>
-
             </div>
-        </>
     )
 }
 export default Register;

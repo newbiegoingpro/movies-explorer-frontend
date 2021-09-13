@@ -11,8 +11,6 @@ function Login(props) {
         props.onLogin({ email: email.value, password: password.value, })
     }
     return (
-        <>
-
             <div className="login">
                 <Header />
                 <form className="form" onSubmit={handleSubmit}>
@@ -38,9 +36,7 @@ function Login(props) {
                     <Link to="/signup" className="form__link">Регистрация
                     </Link>
                 </div>
-
-            </div>
-        </>
+            </div>   
     )
 }
 export default Login;
