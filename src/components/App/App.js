@@ -73,13 +73,9 @@ function App() {
                     setSavedMovies(data)
                 }).catch(err => alert(err))
         }
-
-
         if (searchRes) {
             setSearchResult(JSON.parse(searchRes))
         }
-
-
     }, [tokenCheck]);
 
     const handleSearch = (arr, input) => {
@@ -219,7 +215,6 @@ function App() {
                         user={currentUser} onUpdate={onProfileUpdate} component={Profile} path='/profile'>
 
                     </ProtectedRoute>
-
                     <Route exact path='/'>
                         <Main isLoggedIn={loggedIn} />
                     </Route>
@@ -228,9 +223,6 @@ function App() {
                     </Route>
                     <Route path='/signup'>
                         <Register onRegister={onRegister} />
-                    </Route>
-                    <Route path='/test'>
-                        <More></More>
                     </Route>
                     <Route path='*'>
                         <NotFoundPage isLoggedIn={loggedIn} />
