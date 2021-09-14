@@ -1,12 +1,16 @@
+import { useEffect } from "react";
 import { Link, useHistory  } from "react-router-dom";
 
 function NotFoundPage(props) {
     const history = useHistory();
     const handleBackClick = () => {
         console.log('клик')
+        console.log(props.isLoggedIn)
         history.goBack()
     }
-    
+    useEffect(() => {
+        console.log(history)
+    })
     return (
         <div className="not-found">
             <h3 className="not-found__title">

@@ -1,4 +1,4 @@
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import Main from '../Main/Main';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
@@ -11,6 +11,7 @@ import MainApi from '../../utils/authApi';
 import MoviesApi from '../../utils/moviesApi';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import NotFoundPage from '../404/404';
+import More from '../More/More';
 import react from 'react';
 import Popup from '../Popup/Popup';
 function App() {
@@ -28,8 +29,10 @@ function App() {
     const [timesPressed, setTimesPressed] = React.useState(0);
     const [isSuccessful, setIsSuccessful] = React.useState(null);
     const [isOpen, setIsOpen] = React.useState(false);
+    let location = useLocation();
     
-    React.useEffect(() => {
+    React.useEffect(() => {     
+        
         const movies = localStorage.getItem('movies')
         const searchRes = localStorage.getItem('searchRes');
         const token = localStorage.getItem('token');
@@ -62,13 +65,28 @@ function App() {
             }).catch(err => alert(err))
         }         
         
-        if (token && (loggedIn === false)) {
+        if (token) {
             console.log('check')
-            tokenCheck();
+           tokenCheck()
         }
-
     }, []);
 
+    function tokenCheck() {
+        const token = localStorage.getItem('token');
+        if (token) {
+            MainApi.tokenCheck(token)
+                .then((data) => {
+                    if (data) {
+                        
+                        console.log(data.email);
+                        console.log(loggedIn);
+                        handleLogin();
+                        console.log(loggedIn);
+                        history.push(location.pathname);
+                    }
+                }).catch(err => alert(err))
+        }
+    }
     const handleSearch = (arr, input) => {
         setSearchResult(() => {
             let searchRes
@@ -129,21 +147,7 @@ function App() {
         isLoggedIn(true);
     };
 
-    function tokenCheck() {
-        const token = localStorage.getItem('token');
-        if (token) {
-            MainApi.tokenCheck(token)
-                .then((data) => {
-                    if (data) {
-                        setCurrentUserInfo(data)
-                        console.log(data.email);
-                        console.log(loggedIn);
-                        handleLogin();
-                        console.log(loggedIn);
-                    }
-                }).catch(err => alert(err)).finally(console.log(loggedIn))
-        }
-    }
+    
 
     function onProfileUpdate(data) {
         MainApi.updateUserInfo(JSON.stringify(data))
@@ -216,24 +220,25 @@ function App() {
                         onDelClick={onDelClick} view={savedMovies} movies={savedMovies} component={SavedMovies} path='/saved_movies'>
 
                     </ProtectedRoute>
-                    <ProtectedRoute isSuccessful={isSuccessful} onSignOut={onSignOut} loggedIn={loggedIn} user={currentUser} onUpdate={onProfileUpdate} component={Profile} path='/profile'>
+                    <ProtectedRoute isSuccessful={isSuccessful} onSignOut={onSignOut} loggedIn={loggedIn}
+                    user={currentUser} onUpdate={onProfileUpdate} component={Profile} path='/profile'>
 
                     </ProtectedRoute>
                     
                     <Route exact path='/'>
                         <Main isLoggedIn={loggedIn} />
                     </Route>
-                    <ProtectedRoute component={NotFoundPage} path='*'>
-                        <NotFoundPage/>
-                    </ProtectedRoute>
                     <Route path='/signin'>
                         <Login onLogin={onLogin} />
                     </Route>
                     <Route path='/signup'>
                         <Register onRegister={onRegister} />
                     </Route>
+                    <Route path='/test'>
+                        <More></More>
+                    </Route>
                     <Route path='*'>
-                        <NotFoundPage  />
+                        <NotFoundPage isLoggedIn={loggedIn}/>
                     </Route>
 
                 </Switch>
