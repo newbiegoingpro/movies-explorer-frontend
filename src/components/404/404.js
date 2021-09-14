@@ -6,7 +6,7 @@ function NotFoundPage(props) {
     const handleBackClick = () => {
         console.log('клик')
         console.log(props.isLoggedIn)
-        history.goBack()
+        history.go(-2)
     }
     useEffect(() => {
         console.log(history)

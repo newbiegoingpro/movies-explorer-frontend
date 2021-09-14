@@ -30,63 +30,58 @@ function App() {
     const [isSuccessful, setIsSuccessful] = React.useState(null);
     const [isOpen, setIsOpen] = React.useState(false);
     let location = useLocation();
-    
-    React.useEffect(() => {     
-        
-        const movies = localStorage.getItem('movies')
+    const tokenCheck = React.useCallback(
+        () => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                MainApi.tokenCheck(token)
+                    .then((data) => {
+                        if (data) {
+                            console.log(data.email);          
+                            handleLogin();          
+                            history.push(location.pathname);
+                        }
+                    }).catch(err => alert(err))
+            }
+        }, []
+    )
+    React.useEffect(() => {
+        const movies = localStorage.getItem('movies');
         const searchRes = localStorage.getItem('searchRes');
         const token = localStorage.getItem('token');
+        if (token) {
+            console.log('check')
+            tokenCheck() 
+
+            MainApi.getUserInfo()
+                .then(data => {
+                    setCurrentUserInfo(data)
+                })
+                .catch(err => alert(err));
+            if (!movies) {
+                MoviesApi.getAllMovies()
+                    .then((data) => {
+                        setMoviesBase(data)
+                        localStorage.setItem('movies', JSON.stringify(data))
+                    })
+            } else {
+                setMoviesBase(JSON.parse(movies))
+            }
+            MainApi.getSavedMovies()
+                .then((data) => {
+                    console.log(data)
+                    setSavedMovies(data)
+                }).catch(err => alert(err))
+        }
+
+
         if (searchRes) {
             setSearchResult(JSON.parse(searchRes))
         }
-        if(loggedIn === true){
-            MainApi.getUserInfo()
-            .then(data => {
-                setCurrentUserInfo(data)
-            })
-            .catch(err => alert(err));
-        }
-        
-        if(!movies && (loggedIn === true)){
-            MoviesApi.getAllMovies()
-                .then((data) => {
-                    setMoviesBase(data)
-                    localStorage.setItem('movies', JSON.stringify(data))
-                    console.log(moviesBase)
-                })
-        } else {
-            setMoviesBase(JSON.parse(movies))
-        } 
-        if(loggedIn === true){
-            MainApi.getSavedMovies()
-            .then((data) => {
-                console.log(data)
-                setSavedMovies(data)
-            }).catch(err => alert(err))
-        }         
-        
-        if (token) {
-            console.log('check')
-           tokenCheck()
-        }
-    }, []);
 
-    function tokenCheck() {
-        const token = localStorage.getItem('token');
-        if (token) {
-            MainApi.tokenCheck(token)
-                .then((data) => {
-                    if (data) {
-                        
-                        console.log(data.email);
-                        console.log(loggedIn);
-                        handleLogin();
-                        console.log(loggedIn);
-                        history.push(location.pathname);
-                    }
-                }).catch(err => alert(err))
-        }
-    }
+
+    }, [tokenCheck]);
+
     const handleSearch = (arr, input) => {
         setSearchResult(() => {
             let searchRes
@@ -117,7 +112,7 @@ function App() {
     }
     const handleSavedShortFilmsSearch = (arr) => {
         setSavedMovies(() => {
-            
+
             return arr.filter(i => !(i.duration > 50));
         }
         )
@@ -147,7 +142,7 @@ function App() {
         isLoggedIn(true);
     };
 
-    
+
 
     function onProfileUpdate(data) {
         MainApi.updateUserInfo(JSON.stringify(data))
@@ -176,8 +171,8 @@ function App() {
     }
     function onDelClick(_id) {
         MainApi.removeLike(_id)
-            .then(d => 
-                setSavedMovies(savedMovies.filter((el) =>  Object.values(el).every((elem) =>  elem !== _id))) 
+            .then(d =>
+                setSavedMovies(savedMovies.filter((el) => Object.values(el).every((elem) => elem !== _id)))
             )
             .catch(err => alert(err))
 
@@ -205,7 +200,7 @@ function App() {
     const onSearchSubmit = () => {
         setIsSubmitted(true)
     }
-    
+
     return (
         <CurrentUserContext.Provider value={currentUser} >
             <div className='app'>
@@ -221,10 +216,10 @@ function App() {
 
                     </ProtectedRoute>
                     <ProtectedRoute isSuccessful={isSuccessful} onSignOut={onSignOut} loggedIn={loggedIn}
-                    user={currentUser} onUpdate={onProfileUpdate} component={Profile} path='/profile'>
+                        user={currentUser} onUpdate={onProfileUpdate} component={Profile} path='/profile'>
 
                     </ProtectedRoute>
-                    
+
                     <Route exact path='/'>
                         <Main isLoggedIn={loggedIn} />
                     </Route>
@@ -238,7 +233,7 @@ function App() {
                         <More></More>
                     </Route>
                     <Route path='*'>
-                        <NotFoundPage isLoggedIn={loggedIn}/>
+                        <NotFoundPage isLoggedIn={loggedIn} />
                     </Route>
 
                 </Switch>
