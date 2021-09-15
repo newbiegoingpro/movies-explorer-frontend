@@ -125,7 +125,8 @@ function App() {
                 onLogin({ email, password })
                 history.push('/movies');
             }).catch((err) => {
-                alert(err)
+                setIsOpen(true)
+                setIsSuccessful(false)
             })
     }
 
@@ -146,7 +147,10 @@ function App() {
                 setCurrentUserInfo(data.user)
                 handleLogin();
                 history.push('/movies');
-            }).catch(err => alert(err))
+            }).catch(err => {
+                setIsOpen(true)
+                setIsSuccessful(false)
+            })
     }
     function handleLogin() {
         isLoggedIn(true);
