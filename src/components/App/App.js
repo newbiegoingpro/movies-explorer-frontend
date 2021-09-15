@@ -25,6 +25,7 @@ function App() {
     const [timesPressed, setTimesPressed] = React.useState(0);
     const [isSuccessful, setIsSuccessful] = React.useState(null);
     const [isOpen, setIsOpen] = React.useState(false);
+    const [isPressed, setIsPressed] = React.useState(false)
     const location = useLocation();
     const MainApi = new Auth({
         baseUrl: 'https://api.diplomashvayka.nomoredomains.club',
@@ -40,8 +41,8 @@ function App() {
                 MainApi.tokenCheck(token)
                     .then((data) => {
                         if (data) {
-                            console.log(data.email);          
-                            handleLogin();          
+                            console.log(data.email);
+                            handleLogin();
                             history.push(location.pathname);
                         }
                     }).catch(err => alert(err))
@@ -51,22 +52,25 @@ function App() {
     React.useEffect(() => {
         const movies = localStorage.getItem('movies');
         const searchRes = localStorage.getItem('searchRes');
+        const searchResSaved = localStorage.getItem('searchSavedRes');
         const token = localStorage.getItem('token');
         if (token) {
             console.log('check')
-            tokenCheck() 
+            tokenCheck()
 
             MainApi.getUserInfo()
                 .then(data => {
                     setCurrentUserInfo(data)
                 })
                 .catch(err => alert(err));
-            
+
+
             MainApi.getSavedMovies()
                 .then((data) => {
                     console.log(data)
                     setSavedMovies(data)
                 }).catch(err => alert(err))
+
         }
         if (!movies) {
             MoviesApi.getAllMovies()
@@ -77,6 +81,15 @@ function App() {
         } else {
             setMoviesBase(JSON.parse(movies))
         }
+        if (!searchResSaved) {
+            MainApi.getSavedMovies()
+                .then((data) => {
+                    console.log(data)
+                    setSavedMovies(data)
+                }).catch(err => alert(err))
+        } else {
+            setSavedMovies(JSON.parse(searchResSaved));
+        }
         if (searchRes) {
             setSearchResult(JSON.parse(searchRes))
         }
@@ -84,7 +97,7 @@ function App() {
 
     const handleSearch = (arr, input) => {
         setSearchResult(() => {
-            let searchRes
+            let searchRes;
             searchRes = moviesBase.filter(movie => Object.values(movie).some(value => typeof value === 'string' && value.toLowerCase().includes(input.toLowerCase())));
             localStorage.setItem('searchRes', JSON.stringify(searchRes))
             return searchRes
@@ -94,26 +107,29 @@ function App() {
     }
 
     const handleSavedSearch = (arr, input) => {
-        setSavedMovies(() => {
-            return savedMovies.filter(movie => Object.values(movie).some(value => typeof value === 'string' && value.toLowerCase().includes(input.toLowerCase())));
+        setSearchSavedResult(() => {
+            let searchRes;
+            searchRes = savedMovies.filter(movie => Object.values(movie).some(value => typeof value === 'string' && value.toLowerCase().includes(input.toLowerCase())));
+            return searchRes;
         })
         console.log(savedMovies)
     }
 
     const handleShortFilmsSearch = (arr) => {
         setSearchResult(() => {
-            let searchRes
+            let searchRes;
             searchRes = moviesBase.filter(i => !(i.duration > 50));
-            localStorage.setItem('searchRes', JSON.stringify(searchRes))
-            return searchRes
+            localStorage.setItem('searchRes', JSON.stringify(searchRes));
+            return searchRes;
         }
         )
 
     }
     const handleSavedShortFilmsSearch = (arr) => {
-        setSavedMovies(() => {
-
-            return arr.filter(i => !(i.duration > 50));
+        setSearchSavedResult(() => {
+            let searchRes;
+            searchRes = savedMovies.filter(i => !(i.duration > 50));
+            return searchRes;
         }
         )
 
@@ -214,19 +230,21 @@ function App() {
     const onSearchSubmit = () => {
         setIsSubmitted(true)
     }
-
+    const handleCheckbox = () => {
+        setIsPressed(!isPressed)
+    }
     return (
         <CurrentUserContext.Provider value={currentUser} >
             <div className='app'>
                 <Switch history={history}>
-                    <ProtectedRoute setCounter={setTimesPressed} counter={timesPressed} submSt={isSubmitted} subm={onSearchSubmit} preloaderState={onLoadSetTimeout}
+                    <ProtectedRoute setIsPressed={handleCheckbox} setCounter={setTimesPressed} counter={timesPressed} submSt={isSubmitted} subm={onSearchSubmit} preloaderState={onLoadSetTimeout}
                         loadState={isLoading} user={currentUser} movies={moviesBase} onSaveClick={onSaveClick} saved={savedMovies} onDelClick={onDelClick}
                         shortFilms={handleShortFilmsSearch} loggedIn={loggedIn} onSearch={handleSearch} view={searchResult} component={Movies} path='/movies' >
 
                     </ProtectedRoute>
-                    <ProtectedRoute submSt={isSubmitted} subm={onSearchSubmit} user={currentUser}
+                    <ProtectedRoute setIsPressed={handleCheckbox} submSt={isSubmitted} subm={onSearchSubmit} user={currentUser}
                         onSearch={handleSavedSearch} preloaderState={onLoadSetTimeout} loadState={isLoading} loggedIn={loggedIn} shortFilms={handleSavedShortFilmsSearch}
-                        onDelClick={onDelClick} view={savedMovies} movies={savedMovies} component={SavedMovies} path='/saved_movies'>
+                        onDelClick={onDelClick} view={(isSubmitted || isPressed)  ? searchSavedResult : savedMovies} movies={savedMovies} component={SavedMovies} path='/saved_movies'>
 
                     </ProtectedRoute>
                     <ProtectedRoute isSuccessful={isSuccessful} onSignOut={onSignOut} loggedIn={loggedIn}

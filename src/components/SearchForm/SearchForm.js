@@ -23,11 +23,12 @@ function SearchForm(props) {
     const shortFilmsFilter = () => {
         setCheckbox(!isChecked)
         if(isChecked){
-            localStorage.setItem('checkbxSt', JSON.stringify(false))
+            localStorage.setItem('checkbxSt', JSON.stringify(false));
             props.onSearch(props.movies, search);
         } else{
-            localStorage.setItem('checkbxSt', JSON.stringify(true))
-            props.shortFilms(props.view)
+            localStorage.setItem('checkbxSt', JSON.stringify(true));
+            props.shortFilms(props.view);
+            props.setIsPressed()
         }   
     }
 
