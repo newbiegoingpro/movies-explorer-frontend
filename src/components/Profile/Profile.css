@@ -38,6 +38,11 @@
     
 }
 
+.profile__span::after{
+    margin-left: 50px;
+    content: '';
+}
+
 .profile__input::placeholder{
     text-align: end;
 }
