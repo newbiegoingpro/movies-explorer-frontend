@@ -1,5 +1,5 @@
 
-export class Auth {
+export default class Auth {
 
     constructor(options) {
         this.baseUrl = options.baseUrl;
@@ -121,12 +121,3 @@ export class Auth {
     }
 }
 
-
-const auth = new Auth({
-    baseUrl: 'https://api.diplomashvayka.nomoredomains.club',
-    headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem('token')}`
-    }
-});
-export default auth;

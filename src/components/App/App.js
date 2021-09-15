@@ -7,19 +7,15 @@ import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import { CurrentUserContext } from '../../contexts/currentUserContext';
-import MainApi from '../../utils/authApi';
+import Auth from '../../utils/authApi';
 import MoviesApi from '../../utils/moviesApi';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import NotFoundPage from '../404/404';
-import More from '../More/More';
-import react from 'react';
 import Popup from '../Popup/Popup';
 function App() {
     const history = useHistory();
     const [currentUser, setCurrentUserInfo] = React.useState({});
     const [moviesBase, setMoviesBase] = React.useState([]);
-    const [email, emailInput] = React.useState('');
-    const [name, nameInput] = React.useState('');
     const [loggedIn, isLoggedIn] = React.useState(false);
     const [searchResult, setSearchResult] = React.useState([]);
     const [searchSavedResult, setSearchSavedResult] = React.useState([]);
@@ -29,7 +25,14 @@ function App() {
     const [timesPressed, setTimesPressed] = React.useState(0);
     const [isSuccessful, setIsSuccessful] = React.useState(null);
     const [isOpen, setIsOpen] = React.useState(false);
-    let location = useLocation();
+    const location = useLocation();
+    const MainApi = new Auth({
+        baseUrl: 'https://api.diplomashvayka.nomoredomains.club',
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem('token')}`
+        }
+    });
     const tokenCheck = React.useCallback(
         () => {
             const token = localStorage.getItem('token');
@@ -58,20 +61,21 @@ function App() {
                     setCurrentUserInfo(data)
                 })
                 .catch(err => alert(err));
-            if (!movies) {
-                MoviesApi.getAllMovies()
-                    .then((data) => {
-                        setMoviesBase(data)
-                        localStorage.setItem('movies', JSON.stringify(data))
-                    })
-            } else {
-                setMoviesBase(JSON.parse(movies))
-            }
+            
             MainApi.getSavedMovies()
                 .then((data) => {
                     console.log(data)
                     setSavedMovies(data)
                 }).catch(err => alert(err))
+        }
+        if (!movies) {
+            MoviesApi.getAllMovies()
+                .then((data) => {
+                    setMoviesBase(data)
+                    localStorage.setItem('movies', JSON.stringify(data))
+                })
+        } else {
+            setMoviesBase(JSON.parse(movies))
         }
         if (searchRes) {
             setSearchResult(JSON.parse(searchRes))
@@ -128,6 +132,16 @@ function App() {
     function onLogin({ email, password }) {
         MainApi.onLogin({ email, password })
             .then((data) => {
+                const movies = localStorage.getItem('movies');
+                if (!movies) {
+                    MoviesApi.getAllMovies()
+                        .then((data) => {
+                            setMoviesBase(data)
+                            localStorage.setItem('movies', JSON.stringify(data))
+                        })
+                } else {
+                    setMoviesBase(JSON.parse(movies))
+                }
                 localStorage.setItem('token', data.token)
                 setCurrentUserInfo(data.user)
                 handleLogin();
