@@ -21,6 +21,10 @@ function Header(props) {
         handleMenuVisibility(!isMenuOpen);
         console.log('react is dumb')
     }
+   /* const onRouteChange = () => {
+        props.subm();
+        props.setIsPressed();
+    }*/
     function getLoggedHeaderLayout() {
         if (width.width > 768) {
             return (

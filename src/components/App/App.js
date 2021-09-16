@@ -52,7 +52,7 @@ function App() {
     React.useEffect(() => {
         const movies = localStorage.getItem('movies');
         const searchRes = localStorage.getItem('searchRes');
-        const searchResSaved = localStorage.getItem('searchSavedRes');
+
         const token = localStorage.getItem('token');
         if (token) {
             console.log('check')
@@ -64,7 +64,9 @@ function App() {
                 })
                 .catch(err => alert(err));
 
-
+            if (searchRes) {
+                setSearchResult(JSON.parse(searchRes))
+            }
             MainApi.getSavedMovies()
                 .then((data) => {
                     console.log(data)
@@ -81,18 +83,7 @@ function App() {
         } else {
             setMoviesBase(JSON.parse(movies))
         }
-        if (!searchResSaved) {
-            MainApi.getSavedMovies()
-                .then((data) => {
-                    console.log(data)
-                    setSavedMovies(data)
-                }).catch(err => alert(err))
-        } else {
-            setSavedMovies(JSON.parse(searchResSaved));
-        }
-        if (searchRes) {
-            setSearchResult(JSON.parse(searchRes))
-        }
+
     }, [tokenCheck]);
 
     const handleSearch = (arr, input) => {
@@ -128,7 +119,7 @@ function App() {
     const handleSavedShortFilmsSearch = (arr) => {
         setSearchSavedResult(() => {
             let searchRes;
-            searchRes = savedMovies.filter(i => !(i.duration > 50));
+            searchRes = arr.filter(i => !(i.duration > 50));
             return searchRes;
         }
         )
@@ -228,7 +219,7 @@ function App() {
         setTimeout(onLoad, 2000)
     }
     const onSearchSubmit = () => {
-        setIsSubmitted(true)
+        setIsSubmitted(!isSubmitted)
     }
     const handleCheckbox = () => {
         setIsPressed(!isPressed)
@@ -244,7 +235,7 @@ function App() {
                     </ProtectedRoute>
                     <ProtectedRoute setIsPressed={handleCheckbox} submSt={isSubmitted} subm={onSearchSubmit} user={currentUser}
                         onSearch={handleSavedSearch} preloaderState={onLoadSetTimeout} loadState={isLoading} loggedIn={loggedIn} shortFilms={handleSavedShortFilmsSearch}
-                        onDelClick={onDelClick} view={(isSubmitted || isPressed)  ? searchSavedResult : savedMovies} movies={savedMovies} component={SavedMovies} path='/saved_movies'>
+                        onDelClick={onDelClick} view={(isSubmitted || isPressed) ? searchSavedResult : savedMovies} movies={savedMovies} component={SavedMovies} path='/saved_movies'>
 
                     </ProtectedRoute>
                     <ProtectedRoute isSuccessful={isSuccessful} onSignOut={onSignOut} loggedIn={loggedIn}
