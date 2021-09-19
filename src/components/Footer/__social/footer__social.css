@@ -1,6 +1,7 @@
 .footer__social{
     display: flex;
     flex-direction: row;
+    
 }
 
 @media screen and (max-width: 425px){

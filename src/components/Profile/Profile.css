@@ -38,6 +38,11 @@
     
 }
 
+.profile__span::after{
+    margin-left: 50px;
+    content: '';
+}
+
 .profile__input::placeholder{
     text-align: end;
 }
@@ -65,8 +70,21 @@
    margin-top: 16px;
    text-decoration: none;
    color: #EE3465;
+   text-align: center;
+}
+.profile__form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 620px;
 }
 
+.profile__tip{
+    color: #2BE080;
+}
+.profile__tip_fail{
+    color: #EE3465;
+}
 @media screen and (max-width: 425px){
     .profile__input-container{
         min-width: 90%;

@@ -1,0 +1,9 @@
+.form__input{background-color: #fff;
+    border: none;
+    border-bottom: 1px solid #E8E8E8;
+    outline: none;
+    color: rgb(0, 0, 0);
+    height: 27px;
+    padding: 0 0 5px;
+    margin-top: 30px;
+}

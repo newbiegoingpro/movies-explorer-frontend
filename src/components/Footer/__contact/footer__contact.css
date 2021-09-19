@@ -1,3 +1,12 @@
+.footer__contact{
+    text-decoration: none;
+    color: black;
+    margin-top: 9px;
+}
+.footer__contact:hover{
+    cursor: pointer;
+    opacity: .5;
+}
 .footer__contact:nth-of-type(2){
     margin-left: 20px;
     margin-right: 20px;
@@ -6,5 +15,6 @@
 @media screen and (max-width: 425px){
     .footer__contact:nth-of-type(2){
         margin: 0;
+        margin-top: 9px;
     }
 }

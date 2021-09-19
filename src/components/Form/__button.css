@@ -13,6 +13,21 @@
     margin-top: 152px;
 }
 
+.form__button_disabled{
+    background-color: grey;
+    border: none;
+    border-bottom: 1px solid #E8E8E8;
+    outline: none;
+    color: #fff;
+    height: 27px;
+    padding: 0 0 5px;
+    margin-top: 30px;
+    width: 396px;
+    height: 45px;
+    border-radius: 4px;
+    margin-top: 152px;
+}
+
 .form__button:hover{
     opacity: .9;
 }
