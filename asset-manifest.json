@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/static/css/main.787e7337.chunk.css",
+    "main.js": "/static/js/main.f7b6b437.chunk.js",
+    "main.js.map": "/static/js/main.f7b6b437.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.d02a581b.js",
+    "runtime-main.js.map": "/static/js/runtime-main.d02a581b.js.map",
+    "static/js/2.35774e02.chunk.js": "/static/js/2.35774e02.chunk.js",
+    "static/js/2.35774e02.chunk.js.map": "/static/js/2.35774e02.chunk.js.map",
+    "static/js/3.0e1c1d9e.chunk.js": "/static/js/3.0e1c1d9e.chunk.js",
+    "static/js/3.0e1c1d9e.chunk.js.map": "/static/js/3.0e1c1d9e.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.787e7337.chunk.css.map": "/static/css/main.787e7337.chunk.css.map",
+    "static/js/2.35774e02.chunk.js.LICENSE.txt": "/static/js/2.35774e02.chunk.js.LICENSE.txt",
+    "static/media/Group.80dfd5bd.svg": "/static/media/Group.80dfd5bd.svg",
+    "static/media/index.css": "/static/media/smalltumboff.2123b857.svg",
+    "static/media/burgir.5809d10a.svg": "/static/media/burgir.5809d10a.svg",
+    "static/media/logo.c1b0ba1c.svg": "/static/media/logo.c1b0ba1c.svg",
+    "static/media/me.c1acb20f.jpg": "/static/media/me.c1acb20f.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d02a581b.js",
+    "static/js/2.35774e02.chunk.js",
+    "static/css/main.787e7337.chunk.css",
+    "static/js/main.f7b6b437.chunk.js"
+  ]
+}
