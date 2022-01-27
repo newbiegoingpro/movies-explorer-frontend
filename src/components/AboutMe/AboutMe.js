@@ -1,4 +1,4 @@
-import me from '../../images/me.jpg'
+import me from '../../images/photo_2021-07-19_13-15-15.jpg';
 function AboutMe() {
     return (
         <div className='aboutme' id='student'>
@@ -10,7 +10,7 @@ function AboutMe() {
                 <p className='aboutme__shortinfo'>Человек, 22 года</p>
                 <article className='aboutme__article'>Родился и живу в Санкт-Петербурге.
                     Программировать начал почему? Это я еще не начал даже.
-                    Люблю рисовать, петь(это секрет), танцевать(самый страшный секрет), играю в гляделки с солнцем.
+                    Люблю рисовать, петь, танцевать, медитирую, играю в гляделки с солнцем.
                 </article>
                 <div className='aboutme__social'>
                     <a  href='https://vk.com/id340609519' className='aboutme__link'>VK</a>

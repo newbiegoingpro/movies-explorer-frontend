@@ -31,7 +31,6 @@ function MoviesCard(props) {
     const handleDel = () => {
         console.log(props.movie._id);
         props.onDelClick(props.movie._id);
-        //props.view.filter(i => i._id !== props.movie._id);
     }
     const handleDelMain = () => {
         const id = props.movie.id;
@@ -40,7 +39,6 @@ function MoviesCard(props) {
         props.onDelClick(ids[0]._id);
         
         setSavedState(false);
-        //props.view.filter(i => i._id !== props.movie._id);
     }
     return (
         <div className='movie'>
